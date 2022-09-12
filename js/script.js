@@ -12,4 +12,27 @@ const addProduct = () => {
         alert("Wrong Input");
         return;
     }
+    setProductInLocalStorage(name, quantity);
 };
+const getProductsFromLocalStorage = () => {
+    const storedProduct = localStorage.getItem("allProduct");
+    if (!storedProduct) {
+        return {};
+    }
+    return JSON.parse(storedProduct);
+};
+const setProductInLocalStorage = (name, quantity) => {
+    const products = getProductsFromLocalStorage();
+    products[name] = quantity;
+    localStorage.setItem("allProduct", JSON.stringify(products));
+    showProducts();
+};
+const showProducts = () => {
+    const productContainer = document.getElementById("all-products");
+    const products = getProductsFromLocalStorage();
+    for (const product in products) {
+        console.log(product);
+        console.log(products[product]);
+    }
+};
+showProducts();
