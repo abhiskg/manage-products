@@ -27,6 +27,14 @@ const getProductsFromLocalStorage = () => {
 const setProductInLocalStorage = (name: string, quantity: string) => {
   const products = getProductsFromLocalStorage();
 
+  if (products[name]) {
+    const totalQty = +products[name] + +quantity;
+    quantity = totalQty + "";
+  }
+
+  if (parseInt(quantity) < 1) {
+    return;
+  }
   products[name] = quantity;
 
   localStorage.setItem("allProduct", JSON.stringify(products));
@@ -37,11 +45,20 @@ const showProducts = () => {
   const productContainer = document.getElementById(
     "all-products"
   ) as HTMLElement;
+  productContainer.textContent = "";
   const products = getProductsFromLocalStorage();
 
   for (const product in products) {
-    console.log(product);
-    console.log(products[product]);
+    const div = document.createElement("div");
+    div.innerHTML = `
+    <div class="shadow-sm p-3 mb-2 bg-body rounded">
+            <span class="fs-3">${product}</span>
+            Quantity:<small class="fw-bold">
+                ${products[product]}
+            </small>
+        </div>
+    `;
+    productContainer.append(div);
   }
 };
 showProducts();
