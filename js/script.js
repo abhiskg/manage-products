@@ -42,13 +42,24 @@ const showProducts = () => {
         const div = document.createElement("div");
         div.innerHTML = `
     <div class="shadow-sm p-3 mb-2 bg-body rounded">
-            <span class="fs-3">${product}</span>
-            Quantity:<small class="fw-bold">
-                ${products[product]}
-            </small>
+           <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <span class="fs-4">${product}</span>
+                Quantity:<small class="fw-bold">
+                    ${products[product]}
+                </small>
+              </div>
+              <button onclick="deleteProduct('${product}')" class='btn btn-danger'>Delete</button class='btn btn-danger'>
+           </div>
         </div>
     `;
         productContainer.append(div);
     }
+};
+const deleteProduct = (product) => {
+    const storedProduct = getProductsFromLocalStorage();
+    delete storedProduct[product];
+    localStorage.setItem("allProduct", JSON.stringify(storedProduct));
+    showProducts();
 };
 showProducts();
